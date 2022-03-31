@@ -66,4 +66,6 @@ var SeoulCctv = mongoose.model('SeoulCctv', SeoulCctvSchema);
 });
 
 
+
+
   module.exports = router;
