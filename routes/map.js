@@ -27,7 +27,7 @@ router.get('/map', (req, res) => {
     })
 });
 
-router.get('/maptest', function(req, res, next) {
+router.get('/maptest', function(req, res) {
     var template = `
     <!DOCTYPE html>
     <html>
@@ -51,8 +51,11 @@ router.get('/maptest', function(req, res, next) {
 });
 
 router.get('/maptest2', function(req, res, next){
-    SeoulMap.find({},{_id : 0},function(err,docs){
+    var address = req.query.address;
+    SeoulMap.find({'address' : address},{_id : 0},function(err,docs){
         if(err) console.log('err');
+        console.log(docs.length);
+        console.log(address);
         var template = `
         <!doctype html>
         <html>
@@ -78,8 +81,10 @@ router.get('/maptest2', function(req, res, next){
            const tiles = L.tileLayer(tileUrl,{attribution})
            tiles.addTo(map);
            // 여기 밑에부터는 마커 클러스터 기능구현 코드
+           
            var markers = new L.MarkerClusterGroup();
            `
+
            for(var i=0;i<docs.length;i++){
              if(docs[i]['latitude'] >0 && docs[i]['longitude']>0){
             template += `markers.addLayer(L.marker([${docs[i]['latitude']}, ${docs[i]['longitude']}])
@@ -89,11 +94,13 @@ router.get('/maptest2', function(req, res, next){
 
             template+=`
             map.addLayer(markers);
+            console.log(markers);
          </script>
         </body>
         </html>
        `;
         res.end(template);
+        
       })
 
 });
