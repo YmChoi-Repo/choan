@@ -20,7 +20,7 @@ const data3 = require('./routes/seoulcctv')
 const data4 = require('./routes/seoulparkinglot')
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://3.35.153.238:27017/testapi');
+mongoose.connect('mongodb:///testapi');
 //mongoose와 ec2 ip를 연동하는 코드.
 
 
